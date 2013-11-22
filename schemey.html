@@ -8,5 +8,68 @@
     </style>
   </head>
   <body>
+    <h1>Shades</h1>
+    <div>
+      <input type="checkbox" name="light" id="isLight">
+      <label for="light">Light Colourscheme</label>
+    </div>
+    <div>
+      <label for="cs_lighter">Foreground (stronger)</label>
+      <input name="cs_lighter" id="cs_lighter" />
+      <div id="cs_lighter_preview" class="preview"></div>
+    </div>
+    <div>
+      <label for="cs_light">Foreground (weaker)</label>
+      <input name="cs_light" id="cs_light" />
+      <div id="cs_light_preview" class="preview"></div>
+    </div>
+    <div>
+      <label for="cs_medium">Intermediate</label>
+      <input name="cs_medium" id="cs_medium" />
+      <div id="cs_medium_preview" class="preview"></div>
+    </div>
+    <div>
+      <label for="cs_dark">Background (weaker)</label>
+      <input name="cs_dark" id="cs_dark" />
+      <div id="cs_dark_preview" class="preview"></div>
+    </div>
+    <div>
+      <label for="cs_darker">Background (stronger)</label>
+      <input name="cs_darker" id="cs_darker" />
+      <div id="cs_darker_preview" class="preview"></div>
+    </div>
+    <h1>Colours</h1>
+    <div>
+      <label for="cs_blue">Colour 1</label>
+      <input name="cs_blue" id="cs_blue" />
+      <div id="cs_blue_preview" class="preview"></div>
+    </div>
+    <div>
+      <label for="cs_green">Colour 2</label>
+      <input name="cs_green" id="cs_green" />
+      <div id="cs_green_preview" class="preview"></div>
+    </div>
+    <div>
+      <label for="cs_orange">Colour 3 (chapters)</label>
+      <input name="cs_orange" id="cs_orange" />
+      <div id="cs_orange_preview" class="preview"></div>
+    </div>
+    <div>
+      <label for="cs_pink">Colour 4 (sequences)</label>
+      <input name="cs_pink" id="cs_pink" />
+      <div id="cs_pink_preview" class="preview"></div>
+    </div>
+    <div>
+      <label for="cs_yellow">Colour 5 (publish)</label>
+      <input name="cs_yellow" id="cs_yellow" />
+      <div id="cs_yellow_preview" class="preview"></div>
+    </div>
+    <div>
+      <label for="cs_red">Red (warnings, errors)</label>
+      <input name="cs_red" id="cs_red" />
+      <div id="cs_red_preview" class="preview"></div>
+    </div>
+    <h1>Output</h1>
+    <textarea id="output"></a>
   </body>
 </html>
