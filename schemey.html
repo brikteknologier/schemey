@@ -6,18 +6,38 @@
     <script type="text/javascript">
       function addPreviewText() {
         var previews = document.querySelectorAll('.preview');
-        function makePreviewSnippet(className, text) {
-          return "<span class='" + className + "'>" + text + "</span>";
+        function makePreviewSnippet(binding, text) {
+          return "<span data-bind=\"style:{color:'#'+"+binding+"()}\">" + text + "</span>";
         }
-        var previewHtml = makePreviewSnippet("lighter", "Foreground S")
-          + makePreviewSnippet("light", "Foreground W")
-          + makePreviewSnippet("medium", "Inter")
-          + makePreviewSnippet("dark", "Background W")
-          + makePreviewSnippet("darker", "Background S");
+        var previewHtml = makePreviewSnippet("$cs_lighter", "Foreground S")
+          + makePreviewSnippet("$cs_light", "Foreground W")
+          + makePreviewSnippet("$cs_medium", "Inter")
+          + makePreviewSnippet("$cs_dark", "Background W")
+          + makePreviewSnippet("$cs_darker", "Background S");
         [].forEach.call(previews, function(preview) {
           preview.innerHTML = previewHtml;
         });
       }
+
+      function bindColours() {
+        Object.keys(ViewModel).forEach(function(colour) {
+          var el = document.getElementById(colour);
+          if (!el) return;
+          el.setAttribute("data-bind", "style:{backgroundColor:'#'+"+colour+"()}");
+        });
+      }
+
+      function changeInput(event) {
+        var target = event.target;
+        var cs = JSON.parse(target.value);
+        var vm = ViewModel;
+        vm.isLight(!!cs.light);
+        Object.keys(cs.defs).forEach(function(key) {
+          if (!vm[key]) return;
+          var val = cs.defs[key].replace('#', '');
+          vm[key](val);
+        });
+      };
 
       var ViewModel = {
         $cs_darker: ko.observable("2e2826"),
@@ -33,9 +53,57 @@
         $cs_green: ko.observable("94b73e"),
         isLight: ko.observable(false)
       };
+
+      ViewModel.output = ko.computed(function() {
+        var vm = ViewModel;
+        var cs = {
+          light: vm.isLight(),
+          defs: {
+            "$cs_video"     : "$cs_blue",
+            "$cs_video_pop" : "$cs_green",
+            "$cs_edit"      : "$cs_green",
+            "$cs_selection" : "$cs_green",
+            "$cs_tags"      : "$cs_green",
+            "$cs_metadata"  : "$cs_blue",
+            "$cs_chapters"  : "$cs_orange",
+            "$cs_highlights" : "$cs_pink",
+            "$cs_sequences" : "$cs_highlights",
+            "$cs_publish"   : "$cs_yellow",
+            "$cs_dangerzone" : "$cs_red",
+            "$cs_error"     : "$cs_red",
+            "$cs_me"        : "$cs_green",
+            "$cs_areas"     : "$cs_orange",
+            "$cs_users"     : "$cs_green",
+            "$cs_error"     : "$cs_red",
+            "$cs_timeline"  : "$cs_green",
+            "$cs_playlists" : "$cs_yellow",
+            "$cs_darkbg"    : "$cs_darker",
+            "$cs_lightbg"   : "$cs_dark",
+            "$cs_font"      : "europa",
+            "$cs_font_narrow": "proxima-nova-condensed",
+            "$cs_logo": "http://i.imgur.com/KBCltkq.jpg",
+            "$cs_darker"    : '#'+vm.$cs_darker(),
+            "$cs_dark"      : '#'+vm.$cs_dark(),
+            "$cs_medium"    : '#'+vm.$cs_medium(),
+            "$cs_highlight" : "$cs_green",
+            "$cs_light"     : '#'+vm.$cs_light(),
+            "$cs_lighter"   : '#'+vm.$cs_lighter(),
+            "$cs_red"       :'#'+ vm.$cs_red(),
+            "$cs_orange"    : '#'+vm.$cs_orange(),
+            "$cs_blue"      : '#'+vm.$cs_blue(),
+            "$cs_pink"      : '#'+vm.$cs_pink(),
+            "$cs_yellow"    : '#'+vm.$cs_yellow(),
+            "$cs_green"     : '#'+vm.$cs_green(),
+          }
+        };
+        return JSON.stringify(cs, true, "  ");
+      });
   
       document.addEventListener('DOMContentLoaded', function() {
         addPreviewText();
+        bindColours();
+        ko.applyBindings(ViewModel);
+        document.querySelector('#input_area').addEventListener('change', changeInput);
       });
     </script>
     <style type="text/css">
@@ -69,8 +137,9 @@
         display: inline-block;
         height: 25px;
         vertical-align: text-top;
-        width: 400px;
-        font-size: 12px;
+        width: 500px;
+        font-size: 14px;
+        font-weight: bold;
       }
 
       .preview span {
@@ -83,66 +152,68 @@
   <body>
     <h1>Shades</h1>
     <div>
-      <input type="checkbox" name="light" id="isLight">
+      <input type="checkbox" name="light" data-bind="checked: isLight"/>
       <label for="light">Light Colourscheme</label>
     </div>
     <div>
       <label for="cs_lighter">Foreground (stronger)</label>
-      <input name="cs_lighter" id="cs_lighter" value="fafdf2" />
-      <div id="cs_lighter_preview" class="preview"></div>
+      <input name="cs_lighter" id="cs_lighter" data-bind="value: $cs_lighter" />
+      <div id="$cs_lighter" class="preview"></div>
     </div>
     <div>
       <label for="cs_light">Foreground (weaker)</label>
-      <input name="cs_light" id="cs_light" value="b5c0af" />
-      <div id="cs_light_preview" class="preview"></div>
+      <input name="cs_light" id="cs_light" data-bind="value: $cs_light" />
+      <div id="$cs_light" class="preview"></div>
     </div>
     <div>
       <label for="cs_medium">Intermediate</label>
-      <input name="cs_medium" id="cs_medium" value="4c4c4c" />
-      <div id="cs_medium_preview" class="preview"></div>
+      <input name="cs_medium" id="cs_medium" data-bind="value: $cs_medium" />
+      <div id="$cs_medium" class="preview"></div>
     </div>
     <div>
       <label for="cs_dark">Background (weaker)</label>
-      <input name="cs_dark" id="cs_dark" value="362f2d" />
-      <div id="cs_dark_preview" class="preview"></div>
+      <input name="cs_dark" id="cs_dark" data-bind="value: $cs_dark" />
+      <div id="$cs_dark" class="preview"></div>
     </div>
     <div>
       <label for="cs_darker">Background (stronger)</label>
-      <input name="cs_darker" id="cs_darker" value="2e2826" />
-      <div id="cs_darker_preview" class="preview"></div>
+      <input name="cs_darker" id="cs_darker" data-bind="value: $cs_darker" />
+      <div id="$cs_darker" class="preview"></div>
     </div>
     <h1>Colours</h1>
     <div>
       <label for="cs_blue">Colour 1</label>
-      <input name="cs_blue" id="cs_blue" value="2187f7" />
-      <div id="cs_blue_preview" class="preview"></div>
+      <input name="cs_blue" id="cs_blue" data-bind="value: $cs_blue" />
+      <div id="$cs_blue" class="preview"></div>
     </div>
     <div>
       <label for="cs_green">Colour 2</label>
-      <input name="cs_green" id="cs_green" value="94b73e"/>
-      <div id="cs_green_preview" class="preview"></div>
+      <input name="cs_green" id="cs_green" data-bind="value: $cs_green"/>
+      <div id="$cs_green" class="preview"></div>
     </div>
     <div>
       <label for="cs_orange">Colour 3 (chapters)</label>
-      <input name="cs_orange" id="cs_orange" value="f8952b" />
-      <div id="cs_orange_preview" class="preview"></div>
+      <input name="cs_orange" id="cs_orange" data-bind="value: $cs_orange" />
+      <div id="$cs_orange" class="preview"></div>
     </div>
     <div>
       <label for="cs_pink">Colour 4 (sequences)</label>
-      <input name="cs_pink" id="cs_pink" value="f82bbd" />
-      <div id="cs_pink_preview" class="preview"></div>
+      <input name="cs_pink" id="cs_pink" data-bind="value: $cs_pink" />
+      <div id="$cs_pink" class="preview"></div>
     </div>
     <div>
       <label for="cs_yellow">Colour 5 (publish)</label>
-      <input name="cs_yellow" id="cs_yellow" value="e8e642"/>
-      <div id="cs_yellow_preview" class="preview"></div>
+      <input name="cs_yellow" id="cs_yellow" data-bind="value: $cs_yellow"/>
+      <div id="$cs_yellow" class="preview"></div>
     </div>
     <div>
       <label for="cs_red">Red (warnings, errors)</label>
-      <input name="cs_red" id="cs_red" value="f83531" />
-      <div id="cs_red_preview" class="preview"></div>
+      <input name="cs_red" id="cs_red" data-bind="value: $cs_red" />
+      <div id="$cs_red" class="preview"></div>
     </div>
     <h1>Output</h1>
-    <textarea id="output"></textarea>
+    <textarea id="output_area" data-bind="value:output"></textarea>
+    <h1>Input</h1>
+    <textarea id="input_area"></textarea>
   </body>
 </html>
