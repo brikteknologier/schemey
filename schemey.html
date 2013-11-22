@@ -3,8 +3,65 @@
   <head>
     <title>Schemey</title>
     <script type="text/javascript">
+      function addPreviewText() {
+        var previews = document.querySelectorAll('.preview');
+        function makePreviewSnippet(className, text) {
+          return "<span class='" + className + "'>" + text + "</span>";
+        }
+        var previewHtml = makePreviewSnippet("lighter", "Foreground S")
+          + makePreviewSnippet("light", "Foreground W")
+          + makePreviewSnippet("medium", "Inter")
+          + makePreviewSnippet("dark", "Background W")
+          + makePreviewSnippet("darker", "Background S");
+        [].forEach.call(previews, function(preview) {
+          preview.innerHTML = previewHtml;
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        addPreviewText();
+      });
     </script>
     <style type="text/css">
+      body {
+        font-family: Neris, Europa, "Helvetica Neue";
+      }
+
+      label {
+        display: inline-block;
+        width: 150px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+
+      textarea {
+        width: 300px;
+        height: 300px;
+      }
+
+      input:not([type="checkbox"]) {
+        width: 50px;
+        font-size: 14px;
+        padding: 3px 6px;
+      }
+
+      textarea, input {
+        font-family: Inconsolata, Menlo, "Courier New", monospace;
+      }
+
+      div.preview {
+        display: inline-block;
+        height: 25px;
+        vertical-align: text-top;
+        width: 400px;
+        font-size: 12px;
+      }
+
+      .preview span {
+        display: inline-block;
+        margin: 0px 5px;
+        line-height: 25px;
+      }
     </style>
   </head>
   <body>
@@ -15,61 +72,61 @@
     </div>
     <div>
       <label for="cs_lighter">Foreground (stronger)</label>
-      <input name="cs_lighter" id="cs_lighter" />
+      <input name="cs_lighter" id="cs_lighter" value="fafdf2" />
       <div id="cs_lighter_preview" class="preview"></div>
     </div>
     <div>
       <label for="cs_light">Foreground (weaker)</label>
-      <input name="cs_light" id="cs_light" />
+      <input name="cs_light" id="cs_light" value="b5c0af" />
       <div id="cs_light_preview" class="preview"></div>
     </div>
     <div>
       <label for="cs_medium">Intermediate</label>
-      <input name="cs_medium" id="cs_medium" />
+      <input name="cs_medium" id="cs_medium" value="4c4c4c" />
       <div id="cs_medium_preview" class="preview"></div>
     </div>
     <div>
       <label for="cs_dark">Background (weaker)</label>
-      <input name="cs_dark" id="cs_dark" />
+      <input name="cs_dark" id="cs_dark" value="362f2d" />
       <div id="cs_dark_preview" class="preview"></div>
     </div>
     <div>
       <label for="cs_darker">Background (stronger)</label>
-      <input name="cs_darker" id="cs_darker" />
+      <input name="cs_darker" id="cs_darker" value="2e2826" />
       <div id="cs_darker_preview" class="preview"></div>
     </div>
     <h1>Colours</h1>
     <div>
       <label for="cs_blue">Colour 1</label>
-      <input name="cs_blue" id="cs_blue" />
+      <input name="cs_blue" id="cs_blue" value="2187f7" />
       <div id="cs_blue_preview" class="preview"></div>
     </div>
     <div>
       <label for="cs_green">Colour 2</label>
-      <input name="cs_green" id="cs_green" />
+      <input name="cs_green" id="cs_green" value="94b73e"/>
       <div id="cs_green_preview" class="preview"></div>
     </div>
     <div>
       <label for="cs_orange">Colour 3 (chapters)</label>
-      <input name="cs_orange" id="cs_orange" />
+      <input name="cs_orange" id="cs_orange" value="f8952b" />
       <div id="cs_orange_preview" class="preview"></div>
     </div>
     <div>
       <label for="cs_pink">Colour 4 (sequences)</label>
-      <input name="cs_pink" id="cs_pink" />
+      <input name="cs_pink" id="cs_pink" value="f82bbd" />
       <div id="cs_pink_preview" class="preview"></div>
     </div>
     <div>
       <label for="cs_yellow">Colour 5 (publish)</label>
-      <input name="cs_yellow" id="cs_yellow" />
+      <input name="cs_yellow" id="cs_yellow" value="e8e642"/>
       <div id="cs_yellow_preview" class="preview"></div>
     </div>
     <div>
       <label for="cs_red">Red (warnings, errors)</label>
-      <input name="cs_red" id="cs_red" />
+      <input name="cs_red" id="cs_red" value="f83531" />
       <div id="cs_red_preview" class="preview"></div>
     </div>
     <h1>Output</h1>
-    <textarea id="output"></a>
+    <textarea id="output"></textarea>
   </body>
 </html>
