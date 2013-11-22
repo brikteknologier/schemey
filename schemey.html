@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Schemey</title>
+    <script type="text/javascript" src="./knockout.js"></script>
     <script type="text/javascript">
       function addPreviewText() {
         var previews = document.querySelectorAll('.preview');
@@ -18,6 +19,21 @@
         });
       }
 
+      var ViewModel = {
+        $cs_darker: ko.observable("2e2826"),
+        $cs_dark: ko.observable("362f2d"),
+        $cs_medium: ko.observable("4c4c4c"),
+        $cs_light: ko.observable("b5c0af"),
+        $cs_lighter: ko.observable("fafdf2"),
+        $cs_blue: ko.observable("2187f7"),
+        $cs_orange: ko.observable("f8952b"),
+        $cs_yellow: ko.observable("e8e642"),
+        $cs_red: ko.observable("f83531"),
+        $cs_pink: ko.observable("f82bbd"),
+        $cs_green: ko.observable("94b73e"),
+        isLight: ko.observable(false)
+      };
+  
       document.addEventListener('DOMContentLoaded', function() {
         addPreviewText();
       });
